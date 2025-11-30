@@ -13,17 +13,6 @@ spring:
   profiles:
     active:
     - dev
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    preferIpAddress: true
-
-spring:
   cloud:
     gateway:
       default-filters:
@@ -48,30 +37,53 @@ spring:
         uri: lb://ORDER-SERVICE
         predicates:
         - Path=/order-service/**
+        filters:
+        - StripPrefix=1
       - id: PAYMENT-SERVICE
         uri: lb://PAYMENT-SERVICE
         predicates:
         - Path=/payment-service/**
+        filters:
+        - StripPrefix=1
       - id: PRODUCT-SERVICE
         uri: lb://PRODUCT-SERVICE
         predicates:
         - Path=/product-service/**
+        filters:
+        - StripPrefix=1
       - id: SHIPPING-SERVICE
         uri: lb://SHIPPING-SERVICE
         predicates:
         - Path=/shipping-service/**
+        filters:
+        - StripPrefix=1
       - id: USER-SERVICE
         uri: lb://USER-SERVICE
         predicates:
         - Path=/user-service/**
+        filters:
+        - StripPrefix=1
       - id: FAVOURITE-SERVICE
         uri: lb://FAVOURITE-SERVICE
         predicates:
         - Path=/favourite-service/**
+        filters:
+        - StripPrefix=1
       - id: PROXY-CLIENT
         uri: lb://PROXY-CLIENT
         predicates:
         - Path=/app/**
+        filters:
+        - StripPrefix=1
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    preferIpAddress: true
 
 resilience4j:
   circuitbreaker:
